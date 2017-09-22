@@ -1,0 +1,74 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600);
+
+body {
+  position: relative;
+  color: #130C0E;
+  background-color: #fefefe;
+  padding: 5px 20px;
+  font-family: "Source Code Pro", Consolas, monaco, monospace;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+nav {
+    display: block;
+    margin-left: 50px;
+}
+
+#filter ul {
+    color: #130C0E;
+    font-size: 11px;
+    letter-spacing: 1px;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 10px 0;
+}
+
+#filter ul li {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-right: 1px;
+    cursor: pointer;
+    background: #4787ed;
+}
+
+#filter ul li.ON {
+    opacity: 1.0;
+}
+
+#filter ul li.OFF {
+    opacity: 0.3;
+}
+
+.statLine.dark {
+    stroke: #51823F;
+}
+
+.statLine.light {
+    stroke: #e4e2e2;
+}
+
+.statLine.grey {
+    stroke: #e4e2e2;
+}
+
+.statLine {
+    fill: none;
+    stroke-linejoin: "round";
+    stroke-linecap: "round";
+    stroke-width: 2.5;
+}
+
+circle.dark {
+    fill: #51823F;
+}
+
+
+circle.light {
+    fill: #e4e2e2;
+}
+
+
+circle.grey {
+    fill: #e4e2e2;
+}

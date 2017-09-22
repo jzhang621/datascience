@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stats Trending</title>
+</head>
+
+<nav id='filter'></nav>
+<svg height="1000" width="1200"></svg>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.19.0/d3-legend.js"></script>
+<script src="utils.js"></script>
+<link rel="stylesheet" type="text/css" href="trend.css"></link>
+
+<script>
+
+var data = [{"ts_pct": 0.8347, "efg_pct": 0.7962, "ft": 0.6261, "ast": 0.7559, "stl": 0.6184, "year": 2000, "fg_pct": 0.8039, "tov": 0.5998, "fg3_pct": 0.6267, "fg3": 0.5765, "fta": 0.5888, "trb": 0.6313, "blk": 0.6525, "fg": 0.7866, "drb": 0.7222, "orb": 0.4542, "fga": 0.4587}, {"ts_pct": 0.8439, "efg_pct": 0.8191, "ft": 0.602, "ast": 0.742, "stl": 0.5995, "year": 2001, "fg_pct": 0.8105, "tov": 0.5722, "fg3_pct": 0.6536, "fg3": 0.6155, "fta": 0.5864, "trb": 0.6613, "blk": 0.622, "fg": 0.7976, "drb": 0.7389, "orb": 0.4556, "fga": 0.4682}, {"ts_pct": 0.855, "efg_pct": 0.8234, "ft": 0.6377, "ast": 0.7307, "stl": 0.6196, "year": 2002, "fg_pct": 0.8148, "tov": 0.5981, "fg3_pct": 0.6497, "fg3": 0.5933, "fta": 0.6115, "trb": 0.6193, "blk": 0.6203, "fg": 0.7861, "drb": 0.7093, "orb": 0.4592, "fga": 0.4488}, {"ts_pct": 0.839, "efg_pct": 0.8122, "ft": 0.6286, "ast": 0.7117, "stl": 0.5984, "year": 2003, "fg_pct": 0.7997, "tov": 0.5963, "fg3_pct": 0.6656, "fg3": 0.5853, "fta": 0.6061, "trb": 0.6275, "blk": 0.5965, "fg": 0.7839, "drb": 0.7293, "orb": 0.4592, "fga": 0.4478}, {"ts_pct": 0.8421, "efg_pct": 0.811, "ft": 0.6195, "ast": 0.7329, "stl": 0.6191, "year": 2004, "fg_pct": 0.8046, "tov": 0.6133, "fg3_pct": 0.6758, "fg3": 0.609, "fta": 0.6185, "trb": 0.6414, "blk": 0.6048, "fg": 0.7904, "drb": 0.7328, "orb": 0.4784, "fga": 0.4584}, {"ts_pct": 0.8297, "efg_pct": 0.7926, "ft": 0.6337, "ast": 0.7052, "stl": 0.5917, "year": 2005, "fg_pct": 0.7682, "tov": 0.5774, "fg3_pct": 0.6758, "fg3": 0.6378, "fta": 0.6125, "trb": 0.6274, "blk": 0.6153, "fg": 0.757, "drb": 0.7233, "orb": 0.4575, "fga": 0.425}, {"ts_pct": 0.8109, "efg_pct": 0.7928, "ft": 0.6274, "ast": 0.7094, "stl": 0.5416, "year": 2006, "fg_pct": 0.781, "tov": 0.5733, "fg3_pct": 0.6713, "fg3": 0.6231, "fta": 0.6203, "trb": 0.654, "blk": 0.6237, "fg": 0.7665, "drb": 0.7193, "orb": 0.4926, "fga": 0.454}, {"ts_pct": 0.8272, "efg_pct": 0.7903, "ft": 0.6105, "ast": 0.7218, "stl": 0.5799, "year": 2007, "fg_pct": 0.7909, "tov": 0.5945, "fg3_pct": 0.6672, "fg3": 0.6356, "fta": 0.5718, "trb": 0.6576, "blk": 0.6367, "fg": 0.7699, "drb": 0.7317, "orb": 0.4896, "fga": 0.4868}, {"ts_pct": 0.842, "efg_pct": 0.819, "ft": 0.6375, "ast": 0.7447, "stl": 0.625, "year": 2008, "fg_pct": 0.7975, "tov": 0.6294, "fg3_pct": 0.6667, "fg3": 0.6406, "fta": 0.585, "trb": 0.6696, "blk": 0.6024, "fg": 0.7785, "drb": 0.7425, "orb": 0.4799, "fga": 0.4715}, {"ts_pct": 0.8453, "efg_pct": 0.8008, "ft": 0.6215, "ast": 0.7319, "stl": 0.6091, "year": 2009, "fg_pct": 0.7885, "tov": 0.585, "fg3_pct": 0.657, "fg3": 0.6391, "fta": 0.6022, "trb": 0.6696, "blk": 0.6207, "fg": 0.773, "drb": 0.7551, "orb": 0.4925, "fga": 0.4618}, {"ts_pct": 0.8488, "efg_pct": 0.8112, "ft": 0.6414, "ast": 0.7189, "stl": 0.5882, "year": 2010, "fg_pct": 0.7962, "tov": 0.5752, "fg3_pct": 0.6991, "fg3": 0.633, "fta": 0.6284, "trb": 0.676, "blk": 0.5995, "fg": 0.772, "drb": 0.7755, "orb": 0.4863, "fga": 0.4363}, {"ts_pct": 0.8511, "efg_pct": 0.818, "ft": 0.6431, "ast": 0.7117, "stl": 0.5902, "year": 2011, "fg_pct": 0.8009, "tov": 0.5805, "fg3_pct": 0.68, "fg3": 0.6432, "fta": 0.6163, "trb": 0.6364, "blk": 0.5884, "fg": 0.7582, "drb": 0.7392, "orb": 0.4528, "fga": 0.4283}, {"ts_pct": 0.8416, "efg_pct": 0.7943, "ft": 0.6094, "ast": 0.7207, "stl": 0.6031, "year": 2012, "fg_pct": 0.7813, "tov": 0.5846, "fg3_pct": 0.6574, "fg3": 0.6449, "fta": 0.5909, "trb": 0.685, "blk": 0.6054, "fg": 0.7854, "drb": 0.7505, "orb": 0.5171, "fga": 0.5054}, {"ts_pct": 0.8413, "efg_pct": 0.8114, "ft": 0.5878, "ast": 0.7322, "stl": 0.6109, "year": 2013, "fg_pct": 0.8072, "tov": 0.6074, "fg3_pct": 0.6708, "fg3": 0.6484, "fta": 0.5872, "trb": 0.6515, "blk": 0.6183, "fg": 0.8109, "drb": 0.7321, "orb": 0.4802, "fga": 0.4714}, {"ts_pct": 0.8519, "efg_pct": 0.8182, "ft": 0.6242, "ast": 0.7212, "stl": 0.5831, "year": 2014, "fg_pct": 0.8096, "tov": 0.5796, "fg3_pct": 0.6821, "fg3": 0.6472, "fta": 0.586, "trb": 0.6418, "blk": 0.6379, "fg": 0.7879, "drb": 0.7405, "orb": 0.4459, "fga": 0.4508}, {"ts_pct": 0.8545, "efg_pct": 0.8222, "ft": 0.5937, "ast": 0.7174, "stl": 0.6034, "year": 2015, "fg_pct": 0.8102, "tov": 0.5841, "fg3_pct": 0.6938, "fg3": 0.6511, "fta": 0.5625, "trb": 0.6357, "blk": 0.5964, "fg": 0.7989, "drb": 0.7449, "orb": 0.4548, "fga": 0.4674}, {"ts_pct": 0.8444, "efg_pct": 0.8117, "ft": 0.5981, "ast": 0.716, "stl": 0.5803, "year": 2016, "fg_pct": 0.8152, "tov": 0.5824, "fg3_pct": 0.6964, "fg3": 0.6399, "fta": 0.5656, "trb": 0.6656, "blk": 0.6412, "fg": 0.8134, "drb": 0.7488, "orb": 0.4905, "fga": 0.4671}, {"ts_pct": 0.8457, "efg_pct": 0.8272, "ft": 0.594, "ast": 0.7261, "stl": 0.6094, "year": 2017, "fg_pct": 0.8116, "tov": 0.575, "fg3_pct": 0.7262, "fg3": 0.6817, "fta": 0.5738, "trb": 0.6463, "blk": 0.6155, "fg": 0.8017, "drb": 0.7514, "orb": 0.4903, "fga": 0.4835}];
+
+    /* CONFIG VALUES */
+    var MIN_YEAR = 2000;
+    var EXCLUDE_KEYS = new Set(['year']);
+    /* END CONFIG VALUES */
+
+    var barChartContainer = d3.select("svg"),
+        graphMargins = {top: 0, right: 0, bottom: 80, left: 50};
+
+    var graphWidth = +barChartContainer.attr("width") - graphMargins.left - graphMargins.right;
+    var graphHeight = +barChartContainer.attr("height") - graphMargins.top - graphMargins.bottom;
+
+    var graphContainer = barChartContainer.append("g")
+        .attr("transform", translate(graphMargins.left, graphMargins.top));
+
+    var pctToHeight = d3.scaleLinear().rangeRound([graphHeight, 0]);
+    var yearToWidth = d3.scaleBand().rangeRound([0, graphWidth]);
+
+    var statLine = d3.line()
+        .x(function(d, i) { return yearToWidth(parseInt(i + MIN_YEAR)); })
+        .y(function(d) { return pctToHeight(d) } )
+
+    var getClass = function(key) {
+      if (state.keyState[key] == true) return 'dark'
+      else return 'light'
+    }
+
+    // track state of user supplied filters
+    var state =  {
+      keyState: {} // map of key to True if the line should be shown, false if it should be greyed.
+    }
+
+    function initState(keysToRender) {
+      /*
+      Set 3pta to true initially, everything else to false
+      */
+      var activeKeys = new Set(['fg3', 'fg3_pct']);
+      for (var i = 0; i < keysToRender.length; i++) {
+        var key = keysToRender[i];
+        if (activeKeys.has(key)) state.keyState[key] = true;
+        else state.keyState[key] = false;
+      }
+    }
+
+    function registerFiltersAndOnClickHandler(keyValues, values) {
+
+       d3.select('#filter').append('ul')
+            .selectAll('li')
+            .data(keyValues)
+            .enter().append('li')
+            .attr("class", function(d) {
+              if (state.keyState[d] == true) return "ON";
+              else return "OFF";
+            })
+            .text(function(d) {return d;})
+            .on('click', function (d) {
+              if (state.keyState[d] == true) {
+                d3.select(this).attr("class", "OFF");
+                state.keyState[d] = false;
+              } else {
+                d3.select(this).attr("class", "ON");
+                state.keyState[d] = true;
+              }
+
+              d3.select("#" + d).attr("class", 'statLine ' + getClass(d));
+              d3.selectAll("circle." + d).each(function() {
+                  d3.select(this).attr("class", d + " " + getClass(d));
+              });
+            })
+    }
+
+    function getDiff(stat, data)  {
+      var first_yr = data[0];
+      var last_yr = data[data.length - 1];
+      return (last_yr[stat] - first_yr[stat]).toFixed(2);
+    }
+
+    var filterKeys = function(allKeys) {
+      var filteredKeys = [];
+
+      for (var i = 0; i < allKeys.length; i++) {
+        var key = allKeys[i];
+        if (EXCLUDE_KEYS.has(key)) continue
+        filteredKeys.push(key);
+      }
+      return filteredKeys;
+    }
+
+    function renderLines(rawData) {
+      var keysToShow = Object.keys(state.keyState).reverse();
+
+      // iterate over the keys of data
+        for (var i = 0; i < keysToShow.length; i++) {
+            var key = keysToShow[i];
+
+            datum = rawData.map(function(d) {return d[key]});
+
+            graphContainer.append("g")
+              .append("path")
+              .attr("id", key)
+              .attr("class", function() { return 'statLine ' + getClass(key); })
+              .attr("d", statLine(datum))
+
+              var dotRadius = 3;
+              graphContainer.selectAll(".dot")
+                  .data(datum)
+                  .enter()
+                  .append("circle")
+                    .attr("class", function () { return key + " " + getClass(key); })
+                    .attr("r", dotRadius)
+                    .attr("cx", function(d, i) { return yearToWidth(i + MIN_YEAR) })
+                    .attr("cy", function(d) { return pctToHeight(d) })
+        }
+
+    }
+
+      var keysToShow = filterKeys(Object.keys(data[0]));
+      initState(keysToShow)
+      registerFiltersAndOnClickHandler(keysToShow , data);
+
+      yearToWidth.domain(data.map(function(y) { return y['year'] }));
+      pctToHeight.domain([0, .9]);
+
+      renderLines(data);
+
+</script>
